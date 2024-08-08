@@ -2,6 +2,7 @@ import {
   FarcasterProfile,
   Logic,
   Schemas,
+  SocialLinks,
   UserProfile,
   Visibility,
   schemas,
@@ -179,7 +180,6 @@ type SimpleGuild = {
   showMembers: boolean
   hideFromExplorer: boolean
   socialLinks: SocialLinks
-  eventSources: EventSources
   onboardingComplete: boolean
   memberCount: number
   guildPin?: GuildPinConfig
@@ -573,21 +573,7 @@ type GuildPlatform = {
 
 type GuildPlatformWithOptionalId = Omit<GuildPlatform, "id"> & { id?: number }
 
-const supportedSocialLinks = [
-  "TWITTER",
-  "LENS",
-  "YOUTUBE",
-  "SPOTIFY",
-  "MIRROR",
-  "MEDIUM",
-  "SUBSTACK",
-  "SNAPSHOT",
-  "SOUND",
-  "WEBSITE",
-  "GITHUB",
-] as const
-type SocialLinkKey = (typeof supportedSocialLinks)[number]
-type SocialLinks = Partial<Record<SocialLinkKey, string>>
+type SocialLinkKey = keyof SocialLinks
 
 const guildTags = ["VERIFIED", "FEATURED"] as const
 type GuildTags = (typeof guildTags)[number]
@@ -597,10 +583,6 @@ type GuildContact = {
   contact: string
   id?: number
 }
-
-const supportedEventSources = ["LINK3", "EVENTBRITE", "LUMA", "DISCORD"] as const
-type EventSourcesKey = (typeof supportedEventSources)[number]
-type EventSources = Partial<Record<EventSourcesKey, string>>
 
 type Guild = {
   id: number
@@ -625,7 +607,6 @@ type Guild = {
   hiddenRoles?: boolean
   requiredPlatforms?: PlatformName[]
   tags: GuildTags[]
-  eventSources: Record<EventSourcesKey, string>
   guildPin?: GuildPinConfig
   isFallback?: boolean
   isDetailed?: boolean
@@ -645,7 +626,6 @@ type RoleFormType = Partial<
     rolePlatforms: Array<
       Partial<Omit<RolePlatform, "guildPlatform">> & {
         guildPlatform?: GuildPlatformWithOptionalId
-        guildPlatformIndex?: number
       }
     >
   } & { name: string }
@@ -660,6 +640,7 @@ type Group = {
   type?: string
   position?: number
   guildId: number
+  hideFromGuildPage: boolean
 }
 
 type SelectOption<T = string> = {
@@ -761,15 +742,13 @@ type DetailedPinLeaderboardUserData = {
 
 type SearchParams = { [key: string]: string | string[] | undefined }
 
-export { supportedEventSources, supportedSocialLinks, ValidationMethod }
+export { ValidationMethod }
 export type {
   BaseUser,
   ClientStateRequirementCreateResponse,
   CoingeckoToken,
   DetailedPinLeaderboardUserData as DetailedUserLeaderboardData,
   DiscordError,
-  EventSources,
-  EventSourcesKey,
   GitPoap,
   Group,
   Guild,

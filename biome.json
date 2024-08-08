@@ -10,7 +10,7 @@
     "attributePosition": "auto"
   },
   "files": {
-    "include": ["src", "cypress"],
+    "include": ["src", "playwright", "playwright.config.ts"],
     "ignore": ["node_modules", ".next", "public", ".out", "package-lock.json"]
   },
   "organizeImports": {
@@ -30,7 +30,6 @@
       "correctness": {
         "noInvalidUseBeforeDeclaration": "off",
         "noPrecisionLoss": "error",
-        "noUnusedVariables": "off",
         "useArrayLiterals": "off",
         "noConstAssign": "off",
         "noGlobalObjectCalls": "off",
@@ -39,7 +38,9 @@
         "noSetterReturn": "off",
         "noUndeclaredVariables": "off",
         "noUnreachable": "off",
-        "noUnreachableSuper": "off"
+        "noUnreachableSuper": "off",
+        "noUnusedImports": "error",
+        "useExhaustiveDependencies": "warn"
       },
       "style": {
         "noInferrableTypes": "error",
@@ -50,9 +51,11 @@
         "useDefaultParameterLast": "error",
         "noArguments": "error",
         "noVar": "error",
-        "useConst": "error"
+        "useConst": "error",
+        "noDefaultExport": "info"
       },
       "suspicious": {
+        "noExplicitAny": "info",
         "noDuplicateClassMembers": "error",
         "noEmptyBlockStatements": "warn",
         "noExplicitAny": "off",
@@ -71,7 +74,8 @@
       },
       "nursery": {
         "useSortedClasses": "info"
-      }
+      },
+      "performance": { "noBarrelFile": "warn" }
     }
   },
   "javascript": {

@@ -34,18 +34,21 @@ import {
   cyber,
   evmos,
   fantom,
+  filecoin,
   gnosis,
   goerli,
   harmonyOne,
   kava,
   klaytn,
   linea,
+  lisk,
   liskSepolia,
   lukso,
   mainnet,
   manta,
   mantle,
   metis,
+  mode,
   moonbeam,
   moonriver,
   opBNB,
@@ -54,8 +57,10 @@ import {
   polygon,
   polygonZkEvm,
   ronin,
+  rootstock,
   scroll,
   scrollSepolia,
+  sei,
   sepolia,
   shimmer,
   taiko,
@@ -604,7 +609,7 @@ const CHAIN_CONFIG: Record<Chain, GuildChain> = {
     },
   },
   LISK_SEPOLIA: {
-    ...generateChainConfig(liskSepolia as ViemChain, "/networkLogos/lisk.svg"),
+    ...generateChainConfig(liskSepolia as ViemChain, ETH_ICON),
     iconUrl: "/networkLogos/lisk.svg",
     blockExplorerIconUrl: {
       light: "/networkLogos/lisk.svg",
@@ -657,6 +662,49 @@ const CHAIN_CONFIG: Record<Chain, GuildChain> = {
     blockExplorerIconUrl: {
       light: "/networkLogos/mint.svg",
       dark: "/networkLogos/mint.svg",
+    },
+  },
+  SEI: {
+    ...generateChainConfig(sei, "/networkLogos/sei.svg"),
+    iconUrl: "/networkLogos/sei.svg",
+    blockExplorerIconUrl: {
+      light: "/explorerLogos/seitrace.svg",
+      dark: "/explorerLogos/seitrace.svg",
+    },
+  },
+  FILECOIN: {
+    ...generateChainConfig(filecoin, "/networkLogos/filecoin.svg"),
+    iconUrl: "/networkLogos/filecoin.svg",
+    blockExplorerIconUrl: {
+      light: "/networkLogos/filecoin.svg",
+      dark: "/networkLogos/filecoin.svg",
+    },
+  },
+  ROOTSTOCK: {
+    ...generateChainConfig(
+      rootstock,
+      "https://assets.coingecko.com/coins/images/1/standard/bitcoin.png"
+    ),
+    iconUrl: "/networkLogos/rootstock.svg",
+    blockExplorerIconUrl: {
+      light: "/networkLogos/rootstock.svg",
+      dark: "/networkLogos/rootstock.svg",
+    },
+  },
+  MODE: {
+    ...generateChainConfig(mode, ETH_ICON),
+    iconUrl: "/networkLogos/mode.svg",
+    blockExplorerIconUrl: {
+      light: "/networkLogos/mode.svg",
+      dark: "/networkLogos/mode.svg",
+    },
+  },
+  LISK: {
+    ...generateChainConfig(lisk as ViemChain, ETH_ICON),
+    iconUrl: "/networkLogos/lisk.svg",
+    blockExplorerIconUrl: {
+      light: "/networkLogos/lisk.svg",
+      dark: "/networkLogos/lisk.svg",
     },
   },
 }
@@ -723,6 +771,11 @@ enum Chains {
   TAIKO = taiko.id,
   KLAYTN = klaytn.id,
   MINT = mint.id,
+  SEI = sei.id,
+  FILECOIN = filecoin.id,
+  ROOTSTOCK = rootstock.id,
+  MODE = mode.id,
+  LISK = lisk.id,
 }
 
 export type Chain = keyof typeof Chains

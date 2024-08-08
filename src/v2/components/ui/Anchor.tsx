@@ -6,14 +6,14 @@ import Link from "next/link"
 import { ComponentProps, forwardRef } from "react"
 
 const anchorVariants = cva(
-  "underline-offset-4 focus:ring-ring focus-visible:ring-4 outline-none font-medium",
+  "underline-offset-4 focus:ring-ring focus-visible:ring-4 outline-none font-semibold",
   {
     variants: {
       variant: {
         default: "text-foreground hover:underline",
         highlighted: "text-anchor-foreground hover:underline",
         muted: "text-muted-foreground hover:underline",
-        silent: "",
+        unstyled: "",
       },
     },
     defaultVariants: {

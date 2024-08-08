@@ -1,5 +1,13 @@
-import { Layout } from "@/components/Layout"
-import { Anchor } from "@/components/ui/Anchor"
+import { Header } from "@/components/Header"
+import {
+  Layout,
+  LayoutBanner,
+  LayoutFooter,
+  LayoutHeadline,
+  LayoutHero,
+  LayoutMain,
+  LayoutTitle,
+} from "@/components/Layout"
 import { env } from "env"
 import { unstable_serialize as infinite_unstable_serialize } from "swr/infinite"
 import { SearchParams } from "types"
@@ -10,7 +18,8 @@ import { ActiveSection } from "./types"
 
 export const metadata = {
   icons: {
-    other: [{ rel: "preload", url: "/banner.svg" }],
+    // @ts-ignore: "as" prop not typed out.
+    other: [{ rel: "preload", url: "/banner.svg", as: "image" }],
   },
 }
 
@@ -20,14 +29,14 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
   const [ssrFeaturedGuilds, ssrNewestGuilds] = await Promise.all([
     fetch(`${env.NEXT_PUBLIC_API.replace("/v1", "")}${featuredPath}`, {
       next: {
-        revalidate: 300,
+        revalidate: 600,
       },
     })
       .then((res) => res.json())
       .catch((_) => []),
     fetch(`${env.NEXT_PUBLIC_API.replace("/v1", "")}${newestPath}`, {
       next: {
-        revalidate: 300,
+        revalidate: 600,
       },
     })
       .then((res) => res.json())
@@ -44,43 +53,26 @@ const Page = async ({ searchParams }: { searchParams: SearchParams }) => {
       }}
     >
       <HeaderBackground />
-      <Layout.Root>
-        <Layout.Hero>
-          <Layout.Header />
-          <div id={ActiveSection.YourGuilds}>
-            <Layout.Headline title="Guildhall" />
-          </div>
-          <Layout.Banner>
+      <Layout>
+        <LayoutHero>
+          <LayoutBanner>
             <div className="absolute inset-0 bg-[auto_115%] bg-[right_top_10px] bg-[url('/banner.svg')] bg-no-repeat opacity-10" />
             <div className="absolute inset-0 bg-gradient-to-tr from-50% from-banner to-transparent" />
-          </Layout.Banner>
-        </Layout.Hero>
+          </LayoutBanner>
 
-        <Layout.Main>
+          <Header />
+
+          <LayoutHeadline id={ActiveSection.YourGuilds}>
+            <LayoutTitle>Guildhall</LayoutTitle>
+          </LayoutHeadline>
+        </LayoutHero>
+
+        <LayoutMain>
           <Explorer searchParams={searchParams} />
-        </Layout.Main>
+        </LayoutMain>
 
-        <Layout.Footer>
-          <p className="my-8 text-center text-muted-foreground text-sm">
-            {`This website is `}
-            <Anchor
-              href="https://github.com/guildxyz/guild.xyz"
-              target="_blank"
-              showExternal
-            >
-              open source
-            </Anchor>
-            {`, and built on the `}
-            <Anchor
-              target="_blank"
-              href="https://www.npmjs.com/package/@guildxyz/sdk"
-              showExternal
-            >
-              Guild SDK
-            </Anchor>
-          </p>
-        </Layout.Footer>
-      </Layout.Root>
+        <LayoutFooter />
+      </Layout>
     </ExplorerSWRProvider>
   )
 }

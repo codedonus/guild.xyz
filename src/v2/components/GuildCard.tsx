@@ -1,17 +1,13 @@
-import { CircleWavyCheck, Users } from "@phosphor-icons/react"
+import { Users } from "@phosphor-icons/react"
 import { GuildBase } from "types"
 import pluralize from "utils/pluralize"
+import { CheckMark } from "./CheckMark"
 import { Anchor } from "./ui/Anchor"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/Avatar"
 import { Badge } from "./ui/Badge"
 import { Card } from "./ui/Card"
 import { Skeleton } from "./ui/Skeleton"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/Tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip"
 
 type Props = {
   guildData: GuildBase
@@ -35,30 +31,21 @@ export const GuildCard: React.FC<Props> = ({ guildData }) => (
         {guildData.name}
       </h3>
       {guildData.tags.includes("VERIFIED") && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger
-              className="relative rounded-full p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              aria-label="verified"
-            >
-              <div
-                className="absolute inset-2 rounded-full bg-white"
-                aria-hidden="true"
-              />
-              <CircleWavyCheck
-                weight="fill"
-                className="relative size-5 fill-blue-500"
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              This guild is verified by <code>Guild.xyz</code>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger
+            className="relative px-1 pt-1"
+            aria-label="verified checkmark"
+          >
+            <CheckMark />
+          </TooltipTrigger>
+          <TooltipContent>
+            This guild is verified by <code>Guild.xyz</code>
+          </TooltipContent>
+        </Tooltip>
       )}
     </div>
-    <div className="flex gap-2">
-      <Badge className="space-x-2">
+    <div className="flex gap-1.5">
+      <Badge className="gap-2">
         <Users weight="bold" />
         <span>
           {new Intl.NumberFormat("en", { notation: "compact" }).format(
@@ -72,7 +59,7 @@ export const GuildCard: React.FC<Props> = ({ guildData }) => (
 )
 
 export const GuildCardWithLink: typeof GuildCard = ({ guildData }) => (
-  <Anchor href={guildData.urlName} className="rounded-2xl" variant="silent">
+  <Anchor href={guildData.urlName} className="rounded-2xl" variant="unstyled">
     <GuildCard guildData={guildData} />
   </Anchor>
 )

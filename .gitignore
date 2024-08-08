@@ -29,11 +29,16 @@ yarn-error.log*
 
 .vercel
 
-cypress/screenshots
-cypress/videos
-
 .idea
 *.tsbuildinfo
 
 *storybook.log
 storybook-static
+
+bun.lockb
+
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+/playwright/results

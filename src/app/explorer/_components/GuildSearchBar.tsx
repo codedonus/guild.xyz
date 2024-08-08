@@ -1,6 +1,4 @@
 "use client"
-
-import { usePrevious } from "@/hooks/usePrevious"
 import { MagnifyingGlass, PushPin, Sparkle } from "@phosphor-icons/react"
 import { ActiveSection } from "app/explorer/types"
 import useDebouncedState from "hooks/useDebouncedState"
@@ -42,6 +40,7 @@ export const GuildSearchBar = () => {
     <div className="relative flex flex-col gap-3 sm:flex-row sm:gap-0">
       <Input
         className="relative h-12 grow rounded-xl border border-border-muted pr-6 pl-10 text-md sm:rounded-r-none"
+        variant="muted"
         placeholder="Search verified guilds"
         onChange={({ currentTarget }) => setSearch(currentTarget.value)}
         value={search}
@@ -53,7 +52,7 @@ export const GuildSearchBar = () => {
         type="single"
         className="self-start sm:h-12 sm:rounded-r-xl sm:border sm:border-border-muted sm:border-l-0 sm:bg-card sm:px-4"
         size="sm"
-        variant="default"
+        variant="secondary"
         onValueChange={(value) => value && setOrder(value as Order)}
         value={order}
       >

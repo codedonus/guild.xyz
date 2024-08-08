@@ -13,13 +13,16 @@ const useAutoReconnect = () => {
 
     let connected = false
 
+    let canConnectToSafe = false
     const safeConnector = connectors.find((connector) => connector.id === "safe")
-    const canConnectToSafe = await safeConnector
-      .getProvider()
-      .then((provider) => !!provider)
-      .catch(() => false)
+    if (safeConnector) {
+      canConnectToSafe = await safeConnector
+        .getProvider()
+        .then((provider) => !!provider)
+        .catch(() => false)
+    }
 
-    const recentConnectorId = await config.storage.getItem("recentConnectorId")
+    const recentConnectorId = await config.storage?.getItem("recentConnectorId")
     if (!recentConnectorId && !canConnectToSafe) return
 
     const connectorToReconnect = canConnectToSafe
@@ -36,11 +39,15 @@ const useAutoReconnect = () => {
     let isAuthorized = false
     let retryCount = 0
 
-    while (!isAuthorized && retryCount < 3) {
-      // isAuthorized is false most of the time, so we retry 3 times
-      await waitForRetry()
-      retryCount++
-      isAuthorized = await connectorToReconnect.isAuthorized()
+    if (connectorToReconnect.id === "mock") {
+      isAuthorized = true
+    } else {
+      while (!isAuthorized && retryCount < 3) {
+        // isAuthorized is false most of the time, so we retry 3 times
+        await waitForRetry()
+        retryCount++
+        isAuthorized = await connectorToReconnect.isAuthorized()
+      }
     }
 
     if (!isAuthorized) return
@@ -63,7 +70,7 @@ const useAutoReconnect = () => {
       connections: new Map(prevState.connections ?? []).set(
         connectorToReconnect.uid,
         {
-          accounts: data.accounts,
+          accounts: data.accounts as readonly [`0x{string}`, ...`0x${string}`[]],
           chainId: data.chainId,
           connector: connectorToReconnect,
         }
@@ -81,7 +88,7 @@ const useAutoReconnect = () => {
         config.setState((x) => ({
           ...x,
           connections: new Map(),
-          current: undefined,
+          current: null,
           status: "disconnected",
         }))
       else config.setState((x) => ({ ...x, status: "connected" }))
@@ -94,4 +101,4 @@ const useAutoReconnect = () => {
   }, [handleReconnect])
 }
 
-export default useAutoReconnect
+export { useAutoReconnect }
